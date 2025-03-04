@@ -469,6 +469,11 @@ class AgentController:
             'info',
             f'Setting agent({self.agent.name}) state from {self.state.agent_state} to {new_state}',
         )
+        
+        # Send notification when awaiting user input
+        if new_state == AgentState.AWAITING_USER_INPUT:
+            print("\n\033[1;33mNOTIFICATION: The agent is awaiting your input!\033[0m\n")
+            print('\a')  # System bell sound
 
         if new_state == self.state.agent_state:
             return
