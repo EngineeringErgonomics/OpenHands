@@ -469,6 +469,21 @@ class AgentController:
             'info',
             f'Setting agent({self.agent.name}) state from {self.state.agent_state} to {new_state}',
         )
+        
+        # Send notification when awaiting user input
+        if new_state == AgentState.AWAITING_USER_INPUT:
+            print("\n\033[1;33mNOTIFICATION: The agent is awaiting your input!\033[0m\n")
+            import platform
+            import os
+            
+            system = platform.system()
+            if system == 'Darwin':  # macOS
+                os.system("afplay /System/Library/Sounds/Ping.aiff")
+            elif system == 'Windows':
+                import winsound
+                winsound.Beep(1000, 500)  # 1000Hz for 500ms
+            else:  # Linux and others
+                os.system('echo -e "\a"')
 
         if new_state == self.state.agent_state:
             return
